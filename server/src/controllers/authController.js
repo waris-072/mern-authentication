@@ -40,3 +40,22 @@ export const login= async (req, res) => {
     });
   }
 };
+
+export const logout = (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: false, // true in production (HTTPS)
+    sameSite: "strict",
+  });
+  res.status(200).json({
+    success: true,
+    message: "Logout successful",
+  });
+};
+
+export const getProfile = (req, res) => {
+  res.status(200).json({
+    success: true,
+    user: req.user,
+  });
+};

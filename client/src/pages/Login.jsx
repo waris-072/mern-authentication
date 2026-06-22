@@ -1,11 +1,13 @@
 import { useForm } from "react-hook-form";
 import { loginUser } from "../api/authApi";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { EMAIL_REGEX, PASSWORD_REGEX} from "../utils/validators";
 import "../auth.css";
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -20,16 +22,17 @@ const Login = () => {
   });
 
   const [message, setMessage] = useState("");
-
   const onSubmit = async (data) => {
     try {
       const res = await loginUser(data);
-
       setMessage("Login successful");
-
       reset();
 
       console.log(res.data);
+
+      setTimeout(() => {
+        navigate("/profile");
+      }, 300);
     } catch (err) {
       setMessage(
         err.response?.data?.message ||
