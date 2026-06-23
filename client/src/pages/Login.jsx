@@ -25,14 +25,22 @@ const Login = () => {
   const onSubmit = async (data) => {
     try {
       const res = await loginUser(data);
+
       setMessage("Login successful");
       reset();
+
+      const role = res.data.user.role;
 
       console.log(res.data);
 
       setTimeout(() => {
-        navigate("/profile");
-      }, 300);
+        if (role === "admin") {
+          navigate("/dashboard");
+        } else {
+          navigate("/profile");
+        }
+      }, 500);
+
     } catch (err) {
       setMessage(
         err.response?.data?.message ||

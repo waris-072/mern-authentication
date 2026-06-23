@@ -1,83 +1,87 @@
 # 🔐 MERN Authentication System
 
-A full-stack authentication system built using the MERN stack with secure JWT-based authentication, bcrypt password hashing, and HTTP-only cookies.
+A full-stack authentication system built with the MERN stack featuring secure JWT authentication, role-based access control (RBAC), and protected routes.
 
 ---
 
 ## 🚀 Features
 
 ### 👤 Authentication
-- User Registration
-- User Login
-- Password hashing using bcrypt
-- JWT authentication
-- HTTP-only cookies for security
-- Logout functionality
+- User registration & login
+- Password hashing with bcrypt
+- JWT-based authentication
+- HTTP-only cookies
+- Secure logout
+
+---
+
+### 🧠 Role-Based Access Control (RBAC)
+- User roles: `user` / `admin`
+- Role-based middleware protection
+- Route access control:
+  - `/profile` → authenticated users
+  - `/dashboard` → admin only
+
+---
 
 ### 🛡 Security
 - Password encryption (bcrypt)
-- JWT token verification middleware
+- JWT verification middleware
 - Protected backend routes
-- Secure cookie-based authentication
+- Secure cookie handling
+
+---
 
 ### 🎯 Frontend (React)
-- React Hook Form (real-time validation)
-- Regex-based validation
-- Confirm password validation
-- Input error highlighting (red/green UI)
-- Protected routes (ready for extension)
+- React Hook Form validation
+- Protected routes system
+- Authentication guards
+- Admin & user route separation
+
+---
 
 ### ⚙ Backend (Node + Express)
-- MVC architecture (Controller / Service / Routes)
+- MVC architecture
 - Centralized middleware system
-- MongoDB with Mongoose
-- JWT-based auth system
-- Cookie parser integration
+- MongoDB (Mongoose)
+- JWT authentication
+- Cookie-based session handling
+
+---
+
+### 👤 User & Admin Features
+- User profile page (`/profile`)
+- Admin dashboard
+  - User management
+  - Admin overview
+- REST APIs:
+  - `/api/user/profile`
+  - `/api/admin`
 
 ---
 
 ## 🧱 Tech Stack
 
-### Frontend
-- React.js
-- React Hook Form
-- Axios
-- React Router DOM
-- CSS
-
-### Backend
-- Node.js
-- Express.js
-- MongoDB Atlas
-- Mongoose
-- JWT
-- bcrypt
-- cookie-parser
+**Frontend:** React, Axios, React Router DOM  
+**Backend:** Node.js, Express.js  
+**Database:** MongoDB Atlas, Mongoose  
+**Auth:** JWT, bcrypt, cookies  
 
 ---
 
-## 📁 Project Structure
-mern-auth/
-│
-├── client/ # React frontend
-├── server/ # Express backend
-├── .READme.md
-├── .gitignore
+## 🔐 Auth Flow
 
+User registers → Password hashed → Stored in DB → Login → JWT generated → Stored in cookie → Middleware validates requests → Role-based access applied
 
 ---
 
-## 🔐 Authentication Flow
-User registers
-↓
-Password hashed (bcrypt)
-↓
-Stored in MongoDB
-↓
-User logs in
-↓
-JWT generated
-↓
-Stored in HTTP-only cookie
-↓
-Middleware verifies token on protected routes
+## 📌 Project Status
+✔ Authentication system complete  
+✔ RBAC implemented  
+✔ Protected routes working  
+✔ Admin dashboard ready  
+
+---
+
+## 👨‍💻 Author
+Built for full-stack learning and MERN development practice.

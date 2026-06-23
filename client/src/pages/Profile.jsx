@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getProfile, logoutUser } from "../api/authApi";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -23,7 +23,9 @@ const Profile = () => {
   const handleLogout = async () => {
     await logoutUser();
     setUser(null);
-    navigate("/login");
+    setTimeout(() => {
+      navigate("/login");
+    }, 300);
   };
 
   if (!user) return <p>Loading...</p>;
@@ -34,6 +36,15 @@ const Profile = () => {
 
       <p><b>Name:</b> {user.name}</p>
       <p><b>Email:</b> {user.email}</p>
+
+      {/* ADMIN LINK */}
+      {user.role === "admin" && (
+        <Link to="/dashboard">
+          Go to Dashboard
+        </Link>
+      )}
+
+      <br />
 
       <button onClick={handleLogout}>
         Logout
