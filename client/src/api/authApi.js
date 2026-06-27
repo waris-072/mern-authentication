@@ -10,3 +10,6 @@ export const loginUser = (data) => API.post("/auth/login", data);
 export const logoutUser = () => API.post("/auth/logout");
 export const getProfile = () => API.get("/user/profile");
 export const getAllUsers = () => API.get("/admin");
+
+export const toggleUserRole = (id) => API.patch(`/admin/users/${id}/role`);
+export const deleteUser = (id) => API.delete(`/admin/users/${id}`);

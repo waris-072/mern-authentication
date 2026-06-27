@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
 import Profile from "./pages/Profile";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 import {ProfileRoute, AdminRoute} from "./components/ProtectedRoutes";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./admin/Dashboard";
 
 function App() {
   return (

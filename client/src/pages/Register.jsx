@@ -9,11 +9,11 @@ const Register = () => {
   const navigate = useNavigate();
 
   const {
-  register,
-  handleSubmit,
-  watch,
-  reset,
-  formState: { errors, isSubmitting, touchedFields },
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors, isSubmitting, touchedFields },
   } = useForm({
     mode: "onChange", // 🔥 REAL TIME VALIDATION
   });
