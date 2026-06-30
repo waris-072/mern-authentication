@@ -3,7 +3,7 @@ import { loginUser } from "../api/authApi";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { EMAIL_REGEX, PASSWORD_REGEX} from "../utils/validators";
-import "../auth.css";
+import "./auth.css";
 
 const Login = () => {
   const navigate = useNavigate();

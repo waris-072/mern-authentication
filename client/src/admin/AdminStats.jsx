@@ -3,22 +3,26 @@ const AdminStats = ({ users }) => {
   const userCount = users.filter((user) => user.role === "user").length;
 
   return (
-    <>
-      <div className="stat-card">
-        <h3>Total Users</h3>
-        <p>{users.length}</p>
-      </div>
+    <section className="admin-stats">
+      <div className="stats-container">
 
-      <div className="stat-card">
-        <h3>Admins</h3>
-        <p>{adminCount}</p>
-      </div>
+        <div className="stat-card">
+          <h3 className="stat-title">Total Users</h3>
+          <p className="stat-number">{users.length}</p>
+        </div>
 
-      <div className="stat-card">
-        <h3>Users</h3>
-        <p>{userCount}</p>
+        <div className="stat-card">
+          <h3 className="stat-title">Admins</h3>
+          <p className="stat-number">{adminCount}</p>
+        </div>
+
+        <div className="stat-card">
+          <h3 className="stat-title">Users</h3>
+          <p className="stat-number">{userCount}</p>
+        </div>
+
       </div>
-    </>
+    </section>
   );
 };
 

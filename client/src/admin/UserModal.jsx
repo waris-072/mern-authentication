@@ -1,4 +1,4 @@
-import { FaTimes } from "react-icons/fa";
+import { FaTimes, FaUserCircle } from "react-icons/fa";
 
 const UserModal = ({ user, onClose }) => {
   if (!user) return null;
@@ -8,20 +8,64 @@ const UserModal = ({ user, onClose }) => {
       <div className="modal">
 
         <div className="modal-header">
-            <h2>User Details</h2>
-            <FaTimes className="close-icon" onClick={onClose} />
+          <h2>User Details</h2>
+
+          <FaTimes
+            className="close-icon"
+            onClick={onClose}
+          />
         </div>
 
-        <p><strong>ID:</strong> {user._id}</p>
-        <p><strong>Name:</strong> {user.name}</p>
-        <p><strong>Email:</strong> {user.email}</p>
-        <p><strong>Role:</strong> {user.role}</p>
-        <p><strong>Created:</strong>{" "}
-          {new Date(user.createdAt).toLocaleDateString()}
-        </p>
-        <p><strong>Updated:</strong>{" "}
-          {new Date(user.updatedAt).toLocaleString()}
-        </p>
+        <div className="modal-body">
+
+          <div className="modal-avatar">
+            <FaUserCircle />
+            <h3>{user.name}</h3>
+          </div>
+
+          <div className="modal-info">
+
+            <div className="info-row">
+              <span>ID</span>
+              <p>{user._id}</p>
+            </div>
+
+            <div className="info-row">
+              <span>Email</span>
+              <p>{user.email}</p>
+            </div>
+
+            <div className="info-row">
+              <span>Role</span>
+
+              <span
+                className={
+                  user.role === "admin"
+                    ? "role-badge admin"
+                    : "role-badge user"
+                }
+              >
+                {user.role}
+              </span>
+            </div>
+
+            <div className="info-row">
+              <span>Created</span>
+              <p>
+                {new Date(user.createdAt).toLocaleDateString()}
+              </p>
+            </div>
+
+            <div className="info-row">
+              <span>Updated</span>
+              <p>
+                {new Date(user.updatedAt).toLocaleString()}
+              </p>
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
     </div>

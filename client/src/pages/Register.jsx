@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { registerUser } from "../api/authApi";
 import { NAME_REGEX, EMAIL_REGEX, PASSWORD_REGEX} from "../utils/validators";
-import "../auth.css";
+import "./auth.css";
 import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {

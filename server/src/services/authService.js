@@ -1,7 +1,8 @@
 import bcrypt from "bcrypt";
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
-import { generateToken } from "../utils/generateToken.js";
+import { generateAccessToken } from "../utils/generateAccessToken.js";
+import { generateRefreshToken } from "../utils/generateRefreshToken.js";
 
 export const registerUser = async ({ name, email, password,}) => {
   const existingUser = await User.findOne({
@@ -38,12 +39,47 @@ export const loginUser = async({email, password}) =>{
     throw new Error("Invalid Password");
   }
 
-  const token = jwt.sign(
-    { id: user._id, email: user.email, role: user.role },
-    process.env.JWT_SECRET,
-    { expiresIn: "7d" }
-  );
+  const accessToken = generateAccessToken(user);
+  const refreshToken = generateRefreshToken(user);
+  user.refreshToken = refreshToken;
+  await user.save();
+   return { user, accessToken, refreshToken, };
 
-  return { user, token };
+};
+
+export const logoutUser = async (userId) => {
+  await User.findByIdAndUpdate(userId, {
+    refreshToken: null,
+  });
+};
+
+export const refreshUserToken = async (refreshToken) => {
+  if (!refreshToken) {
+      throw new Error("Refresh token not found");
+  }
+  const decoded = jwt.verify(
+      refreshToken,
+      process.env.JWT_REFRESH_SECRET
+  );
+  const user = await User.findById(decoded.id);
+  if (!user) {
+      throw new Error("User not found");
+  }
+  if (user.refreshToken !== refreshToken) {
+      throw new Error("Invalid refresh token");
+  }
+  
+   // Generate NEW tokens (rotation)
+  const newAccessToken = generateAccessToken(user);
+  const newRefreshToken = generateRefreshToken(user);
+
+  // Store the new refresh token
+  user.refreshToken = newRefreshToken;
+  await user.save();
+
+  return {
+    accessToken: newAccessToken,
+    refreshToken: newRefreshToken,
+  };
 
 };

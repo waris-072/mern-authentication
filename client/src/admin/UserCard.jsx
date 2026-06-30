@@ -1,20 +1,59 @@
 import { FaEye, FaTrash, FaUserCog } from "react-icons/fa";
 
-const UserCard = ({ user, onView, onRoleToggle, onDelete }) => {
+const UserCard = ({
+  index,
+  user,
+  onView,
+  onRoleToggle,
+  onDelete,
+}) => {
   return (
     <tr>
-      <td>{user.name}</td>
+
+      <td>{index + 1}</td>
+
+      <td>
+        <div className="user-info">
+          <div className="user-avatar">
+            {user.name.charAt(0).toUpperCase()}
+          </div>
+
+          <span>{user.name}</span>
+        </div>
+      </td>
+
       <td>{user.email}</td>
-      <td>{user.role}</td>
+
+      <td>
+        <span
+          className={
+            user.role === "admin"
+              ? "role-badge admin"
+              : "role-badge user"
+          }
+        >
+          {user.role}
+        </span>
+      </td>
 
       <td>
         <div className="action-icons">
-          <FaEye className="view-icon" style={{ cursor: "pointer" }} 
-            onClick={() => onView(user)}/>
-          <FaUserCog className="edit-icon" style={{cursor: "pointer"}}
-            onClick={() => {onRoleToggle(user._id)}}  />
-          <FaTrash className="delete-icon" style={{cursor: "pointer"}}
-          onClick={() =>{onDelete(user._id)}}/>
+
+          <FaEye
+            className="view-icon"
+            onClick={() => onView(user)}
+          />
+
+          <FaUserCog
+            className="edit-icon"
+            onClick={() => onRoleToggle(user._id)}
+          />
+
+          <FaTrash
+            className="delete-icon"
+            onClick={() => onDelete(user._id)}
+          />
+
         </div>
       </td>
     </tr>
@@ -22,4 +61,3 @@ const UserCard = ({ user, onView, onRoleToggle, onDelete }) => {
 };
 
 export default UserCard;
-

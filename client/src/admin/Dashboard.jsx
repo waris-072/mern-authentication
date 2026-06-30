@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { getProfile, getAllUsers, logoutUser, toggleUserRole, deleteUser } from "../api/authApi";
 import { useNavigate } from "react-router-dom";
 
+import AdminNavbar from "./AdminNavbar";
 import AdminStats from "./AdminStats";
 import UsersTable from "./UsersTable";
 import UserModal from "./UserModal";
 import AdminToolbar from "./AdminToolbar";
 import "../App.css";
-
+import "./admin.css";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
@@ -105,8 +106,8 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="auth-container">
-      <h2>Admin Dashboard</h2>
+    <div className="admin-container">
+      <AdminNavbar user={user} onLogout={handleLogout} onView={() => handleViewUser(user)} />
 
       <AdminToolbar 
         searchTerm={searchTerm} 
@@ -127,10 +128,7 @@ const Dashboard = () => {
       {selectedUser && (<UserModal user={selectedUser} 
         onClose={handleCloseModal}  />
       )}
-
-      <button className="logout-btn" onClick={handleLogout}>
-        Logout
-      </button>
+      
     </div>
   );
 };

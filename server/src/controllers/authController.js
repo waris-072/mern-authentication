@@ -1,4 +1,4 @@
-import { registerUser, loginUser} from "../services/authService.js";
+import { registerUser, loginUser, logoutUser, refreshUserToken, } from "../services/authService.js";
 
 export const register = async (req, res) => {
   try {
@@ -19,13 +19,20 @@ export const register = async (req, res) => {
 
 export const login= async (req, res) => {
   try {
-    const { user, token } = await loginUser(req.body);
+    const { user, accessToken, refreshToken } = await loginUser(req.body);
 
-    res.cookie("token", token, {
+    res.cookie("accessToken", accessToken, {
       httpOnly: true,
-      secure: false, // true in production (HTTPS)
+      secure: false, // true in production
       sameSite: "strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      maxAge: 15 * 60 * 1000, // 15 minutes
+    });
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: false, // true in production
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
     res.status(200).json({
@@ -41,12 +48,21 @@ export const login= async (req, res) => {
   }
 };
 
-export const logout = (req, res) => {
-  res.clearCookie("token", {
+export const logout = async (req, res) => {
+  await logoutUser(req.user._id)
+
+  res.clearCookie("accessToken", {
     httpOnly: true,
-    secure: false, // true in production (HTTPS)
+    secure: false,
     sameSite: "strict",
   });
+
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    secure: false,
+    sameSite: "strict",
+  });
+
   res.status(200).json({
     success: true,
     message: "Logout successful",
@@ -58,4 +74,37 @@ export const getProfile = (req, res) => {
     success: true,
     user: req.user,
   });
+};
+
+export const refreshAccessToken = async (req, res) => {
+  try {
+    const refreshToken = req.cookies?.refreshToken;
+
+    const tokens = await refreshUserToken(refreshToken);
+
+    res.cookie("accessToken", tokens.accessToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "strict",
+      maxAge: 15 * 60 * 1000,
+    });
+
+    res.cookie("refreshToken", tokens.refreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Token refreshed",
+    });
+
+  } catch (err) {
+    res.status(401).json({
+      success: false,
+      message: err.message,
+    });
+  }
 };
