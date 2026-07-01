@@ -77,14 +77,14 @@ const Dashboard = () => {
     setSortOrder("newest")
   };
 
-  const handleRoleToggle = async (id) => {
-    const confirmed = window.confirm(`Change ${user.name}'s role?`);
+  const handleRoleToggle = async (selectedUser) => {
+    const confirmed = window.confirm(`Change ${selectedUser.name}'s role?`);
     if(!confirmed) return;
     try {
-      const res = await toggleUserRole(id);
+      const res = await toggleUserRole(selectedUser._id);
 
       setUsers((prev) =>
-        prev.map((user) => user._id === id ? res.data.user : user)
+        prev.map((user) => user._id === selectedUser._id ? res.data.user : user)
       );
     } catch (error) {
       setError( error.response?.data?.message);

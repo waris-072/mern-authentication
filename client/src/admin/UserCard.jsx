@@ -46,7 +46,7 @@ const UserCard = ({
 
           <FaUserCog
             className="edit-icon"
-            onClick={() => onRoleToggle(user._id)}
+            onClick={() => onRoleToggle(user)}
           />
 
           <FaTrash

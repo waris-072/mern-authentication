@@ -50,3 +50,7 @@ export const getAllUsers = () => API.get("/admin");
 
 export const toggleUserRole = (id) => API.patch(`/admin/users/${id}/role`);
 export const deleteUser = (id) => API.delete(`/admin/users/${id}`);
+
+export const forgotPassword = (data) => API.post("/auth/forgot-password", data);
+export const resetPassword =  
+  (token, data) => API.post(`/auth/reset-password/${token}`, data);

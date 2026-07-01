@@ -111,6 +111,15 @@ const Login = () => {
             : "Login"}
         </button>
       </form>
+      {message && (
+        <p className="message">{message}</p>
+      )}
+
+      <p className="auth-link">
+        <Link to="/forgot-password">
+          Forgot Password?
+        </Link>
+      </p>
 
       <p className="auth-link">
         Don't have an account?{" "}
@@ -119,9 +128,8 @@ const Login = () => {
         </Link>
       </p>
 
-      {message && (
-        <p className="message">{message}</p>
-      )}
+
+      
     </div>
   );
 };

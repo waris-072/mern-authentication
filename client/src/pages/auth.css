@@ -111,3 +111,27 @@
   text-decoration: underline;
   color: #3730a3;
 }
+
+.auth-subtitle{
+    color:#6b7280;
+    margin-bottom:20px;
+    text-align:center;
+}
+
+.success-message{
+    background:#dcfce7;
+    color:#166534;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:15px;
+    font-size:.9rem;
+}
+
+.error-message{
+    background:#fee2e2;
+    color:#b91c1c;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:15px;
+    font-size:.9rem;
+}
