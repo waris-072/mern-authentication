@@ -10,7 +10,14 @@ const Profile = () => {
     const fetchProfile = async () => {
       try {
         const res = await getProfile();
-        setUser(res.data.user);
+        const loggedInUser = res.data.user;
+
+        if (loggedInUser.role === "admin") {
+          navigate("/dashboard");
+          return;
+        }
+        setUser(loggedInUser);
+
       } catch (err) {
         console.log("Not authenticated");
         navigate("/login");
@@ -18,7 +25,7 @@ const Profile = () => {
     };
 
     fetchProfile();
-  }, []);
+  }, [navigate]);
 
   const handleLogout = async () => {
     await logoutUser();
@@ -36,13 +43,6 @@ const Profile = () => {
 
       <p><b>Name:</b> {user.name}</p>
       <p><b>Email:</b> {user.email}</p>
-
-      {/* ADMIN LINK */}
-      {user.role === "admin" && (
-        <Link to="/dashboard">
-          Go to Dashboard
-        </Link>
-      )}
 
       <br />
 

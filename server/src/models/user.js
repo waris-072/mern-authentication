@@ -13,12 +13,25 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
+      default: null,
     },  
     role: {
       type: String,
       enum: ["user", "admin"],
       default: "user",
+    },
+    provider: {
+      type: String,
+      enum: ["local", "google", "github"],
+      default: "local",
+    },
+    googleId: {
+      type: String,
+      default: null,
+    },
+    githubId: {
+      type: String,
+      default: null,
     },
     refreshToken: {
       type: String,

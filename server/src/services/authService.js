@@ -129,3 +129,16 @@ export const resetPassword = async (token,password) => {
   await user.save();
 
 };
+
+export const oauthLogin = async (user) => {
+  const accessToken = generateAccessToken(user);
+  const refreshToken = generateRefreshToken(user);
+
+  user.refreshToken = refreshToken;
+  await user.save();
+
+  return {
+    accessToken,
+    refreshToken,
+  };
+};

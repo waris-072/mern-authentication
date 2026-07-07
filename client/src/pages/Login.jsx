@@ -3,6 +3,8 @@ import { loginUser } from "../api/authApi";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { EMAIL_REGEX, PASSWORD_REGEX} from "../utils/validators";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
 import "./auth.css";
 
 const Login = () => {
@@ -114,6 +116,22 @@ const Login = () => {
       {message && (
         <p className="message">{message}</p>
       )}
+
+      <div className="oauth-buttons">
+        <button type="button" className="google-btn" onClick={() => {
+            window.location.href = "http://localhost:5000/api/auth/google";
+          }}
+        >
+          <FcGoogle size={22} />
+        </button>
+
+        <button type="button" className="github-btn" onClick={() => {
+            window.location.href = "http://localhost:5000/api/auth/github";
+          }}
+        >
+          <FaGithub size={20} />
+        </button>
+      </div>
 
       <p className="auth-link">
         <Link to="/forgot-password">
