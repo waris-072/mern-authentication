@@ -33,3 +33,39 @@ export const passwordResetTemplate = (resetURL) => {
     </p>
   `;
 };
+
+export const verifyEmailTemplate = (otp) => {
+  return `
+    <div style="font-family: Arial, sans-serif; max-width:600px; margin:auto;">
+      <h2>Email Verification</h2>
+
+      <p>Welcome to MERN Auth.</p>
+
+      <p>
+        Use the verification code below to verify your account.
+      </p>
+
+      <div
+        style="
+          font-size:32px;
+          font-weight:bold;
+          letter-spacing:8px;
+          background:#f5f5f5;
+          padding:20px;
+          text-align:center;
+          border-radius:8px;
+        "
+      >
+        ${otp}
+      </div>
+
+      <p style="margin-top:20px;">
+        This code expires in <strong>15 minutes</strong>.
+      </p>
+
+      <p>
+        If you didn't create this account, you can safely ignore this email.
+      </p>
+    </div>
+  `;
+};

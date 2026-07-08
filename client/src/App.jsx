@@ -6,6 +6,7 @@ import {ProfileRoute, AdminRoute} from "./components/ProtectedRoutes";
 import Dashboard from "./admin/Dashboard";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import VerifyEmail from "./pages/verifyEmail";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         }/>
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
       </Routes>
     </BrowserRouter>
   );

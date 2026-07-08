@@ -29,17 +29,21 @@ const Register = () => {
       const res = await registerUser(data);
       setMessage(res.data.message);
       reset();
+
       setTimeout(() => {
-        navigate("/login");
+        navigate("/verify-email", {
+          state: {
+            email: res.data.data.email,
+          },
+        });
       }, 1000);
 
     } catch (err) {
-      setMessage(
-        err.response?.data?.message ||
-          "Something went wrong"
-      );
+      setMessage( err.response?.data?.message || "Something went wrong" );
     }
   };
+
+  
 
   // -------------------------
   // UI

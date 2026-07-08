@@ -1,4 +1,6 @@
 import { registerUser, loginUser, logoutUser, refreshUserToken, forgotPassword, resetPassword } from "../services/authService.js";
+import { verifyEmail } from "../services/authService.js";
+import { resendVerificationCode } from "../services/authService.js";
 
 export const register = async (req, res) => {
   try {
@@ -44,6 +46,8 @@ export const login = async (req, res) => {
     res.status(400).json({
       success: false,
       message: err.message,
+      verificationRequired: err.verificationRequired || false,
+      email: err.email || null,
     });
   }
 };
@@ -137,6 +141,38 @@ export const resetPasswordController = async (req, res) => {
     res.status(400).json({
       success: false,
       message: error.message,
+    });
+  }
+};
+
+export const verifyEmailController = async (req, res) => {
+  try {
+    await verifyEmail(req.body);
+
+    res.status(200).json({
+      success: true,
+      message: "Email verified successfully.",
+    });
+  } catch (err) {
+    res.status(400).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
+export const resendVerification = async (req, res) => {
+  try {
+    await resendVerificationCode(req.body.email);
+
+    res.json({
+      success: true,
+      message: "Verification code sent.",
+    });
+  } catch (err) {
+    res.status(400).json({
+      success: false,
+      message: err.message,
     });
   }
 };

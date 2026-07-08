@@ -26,6 +26,7 @@ export const findOrCreateGoogleUser = async (profile) => {
     password: "",
     googleId,
     provider: "google",
+    isVerified: true,
   });
 
   return user;
@@ -63,6 +64,7 @@ export const findOrCreateGithubUser = async (profile) => {
     password: "",
     githubId,
     provider: "github",
+    isVerified: true,
   });
 
   return user;

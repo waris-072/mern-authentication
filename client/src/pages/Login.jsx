@@ -44,10 +44,15 @@ const Login = () => {
       }, 500);
 
     } catch (err) {
-      setMessage(
-        err.response?.data?.message ||
-          "Login failed"
-      );
+        if (err.response?.data?.verificationRequired) {
+          navigate("/verify-email", {
+            state: {
+              email: err.response.data.email,
+            },
+          });
+          return;
+        }
+      setMessage( err.response?.data?.message || "Login failed" );
     }
   };
 

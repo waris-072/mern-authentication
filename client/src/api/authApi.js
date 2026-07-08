@@ -54,3 +54,7 @@ export const deleteUser = (id) => API.delete(`/admin/users/${id}`);
 export const forgotPassword = (data) => API.post("/auth/forgot-password", data);
 export const resetPassword =  
   (token, data) => API.post(`/auth/reset-password/${token}`, data);
+
+export const verifyEmail = (data) => API.post("/auth/verify-email", data);
+export const resendVerification = 
+  (email) => API.post("/auth/resend-verification", {   email, });

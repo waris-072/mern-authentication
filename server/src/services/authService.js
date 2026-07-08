@@ -8,6 +8,8 @@ import { generateRefreshToken } from "../utils/generateRefreshToken.js";
 import { generateResetToken } from "../utils/generateResetToken.js";
 import { sendEmail } from "../utils/sendEmail.js";
 import { passwordResetTemplate } from "../utils/emailTemplate.js";
+import { generateOTP } from "../utils/generateOTP.js";
+import { verifyEmailTemplate } from "../utils/emailTemplate.js";
 
 export const registerUser = async ({ name, email, password,}) => {
   const existingUser = await User.findOne({
@@ -26,6 +28,25 @@ export const registerUser = async ({ name, email, password,}) => {
     password: hashedPassword,
   });
 
+  const { otp, hashedOTP } = generateOTP();
+
+  user.emailVerificationCode = hashedOTP;
+  user.emailVerificationExpires = Date.now() + 15 * 60 * 1000;
+
+  await user.save();
+
+  try {
+    await sendEmail({
+      to: user.email,
+      subject: "Verify Your Email",
+      html: verifyEmailTemplate(otp),
+    });
+  } catch (err) {
+    await User.findByIdAndDelete(user._id);
+    console.error("Error sending verification email:", err);
+    throw new Error(err.message);
+  }
+
   return {id: user._id, name: user.name, email: user.email, };
 };
 
@@ -35,8 +56,14 @@ export const loginUser = async({email, password}) =>{
   }
 
   const user = await User.findOne({email});
-  if(!user){
-    throw new Error("Invalid email");
+  if(!user){ throw new Error("Invalid email"); }
+
+  if (!user.isVerified) {
+    const error = new Error( "Please verify your email before logging in." );
+
+    error.verificationRequired = true;
+    error.email = user.email;
+    throw error;
   }
 
   const isMatch = await bcrypt.compare(password, user.password);
@@ -141,4 +168,72 @@ export const oauthLogin = async (user) => {
     accessToken,
     refreshToken,
   };
+};
+
+export const verifyEmail = async ({ email, otp }) => {
+  const hashedOTP = crypto
+    .createHash("sha256")
+    .update(otp)
+    .digest("hex");
+
+  const user = await User.findOne({
+    email: email.trim().toLowerCase(),
+  });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  if (user.isVerified) {
+    throw new Error("Email already verified");
+  }
+
+  if (!user.emailVerificationCode) {
+    throw new Error("Verification code not found");
+  }
+
+  if (user.emailVerificationExpires < Date.now()) {
+    throw new Error("Verification code expired");
+  }
+
+  if (user.emailVerificationCode !== hashedOTP) {
+    throw new Error("Invalid verification code");
+  }
+
+  user.isVerified = true;
+  user.emailVerificationCode = null;
+  user.emailVerificationExpires = null;
+
+  await user.save();
+
+  return user;
+};
+
+export const resendVerificationCode = async (email) => {
+  const user = await User.findOne({
+    email: email.trim().toLowerCase(),
+  });
+
+  if (!user) {
+    throw new Error("User not found.");
+  }
+
+  if (user.isVerified) {
+    throw new Error("Email already verified.");
+  }
+
+  const { otp, hashedOTP } = generateOTP();
+
+  user.emailVerificationCode = hashedOTP;
+  user.emailVerificationExpires = Date.now() + 3 * 60 * 1000;
+
+  await user.save();
+
+  await sendEmail({
+    to: user.email,
+    subject: "Verify Your Email",
+    html: verifyEmailTemplate(otp),
+  });
+
+  return;
 };

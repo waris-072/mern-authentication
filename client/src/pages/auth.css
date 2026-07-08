@@ -176,3 +176,131 @@
 .oauth-buttons .github-btn:hover {
   background: #24292fd2;
 }
+
+/* ==========================
+   Verify Email
+========================== */
+
+.verify-header{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.verify-header p{
+    color:#666;
+    margin:8px 0;
+}
+
+.verify-icon{
+    width:70px;
+    height:70px;
+
+    margin:auto;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:34px;
+
+    color:#2563eb;
+
+    background:#eef4ff;
+
+    border-radius:50%;
+}
+
+.otp-container{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+
+    margin:28px 0;
+}
+
+.otp-input{
+    width:36px;
+    height:42px;
+
+    border:2px solid #ddd;
+    border-radius:12px;
+
+    font-size:26px;
+    font-weight:700;
+
+    text-align:center;
+
+    transition:.2s;
+}
+
+.otp-input:focus{
+    outline:none;
+    border-color:#2563eb;
+    box-shadow:0 0 0 4px rgba(37,99,235,.15);
+}
+
+.verify-btn{
+    width:80%;
+    align-self:center;
+}
+
+.verification-footer{
+    margin-top:22px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    gap:10px;
+}
+
+.countdown{
+    color:#666;
+    font-size:15px;
+}
+
+.countdown span{
+    display:block;
+
+    margin-top:5px;
+
+    color:#2563eb;
+
+    font-size:22px;
+    font-weight:700;
+}
+.resend-btn{
+    width:auto !important;
+    padding:0 !important;
+
+    background:transparent !important;
+    color:#2563eb !important;
+
+    border:none !important;
+    border-radius:0 !important;
+
+    font-size:15px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    box-shadow:none !important;
+}
+
+.resend-btn:hover:not(:disabled){
+    background:transparent !important;
+    color:#1d4ed8 !important;
+    text-decoration:underline;
+}
+
+.resend-btn:disabled{
+    background:transparent !important;
+    color:#9ca3af !important;
+    cursor:not-allowed;
+}
+
+.message{
+    margin-top:18px;
+    text-align:center;
+    font-weight:500;
+}
