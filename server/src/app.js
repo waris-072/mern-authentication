@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import session from "express-session";
+import helmet from "helmet";
 
 import passport from "./config/passport.js";
 
@@ -11,6 +12,7 @@ import adminRoutes from "./routes/adminRoutes.js";
 import oauthRoutes from "./routes/oauthRoutes.js";
 
 const app = express();
+app.use(helmet())
 
 /* ---------- Middleware ---------- */
 

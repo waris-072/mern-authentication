@@ -30,21 +30,21 @@ export const loginLimiter = createLimiter({
 export const registerLimiter = createLimiter({
   windowMs: 60 * 60 * 1000,
   max: 5,
-  message: "Too many registration attempts. Please try again later.",
+  message: "Too many registration attempts. Please try again after 1 hour.",
 });
 
 /*Forgot Password*/
 export const forgotPasswordLimiter = createLimiter({
   windowMs: 60 * 60 * 1000,
   max: 3,
-  message: "Too many password reset requests. Please try again later.",
+  message: "Too many password reset requests. Please try again after 1 hour.",
 });
 
 /*Verify Email */
 export const verifyEmailLimiter = createLimiter({
   windowMs: 15 * 60 * 1000,
   max: 5,
-  message: "Too many verification attempts. Please request a new code.",
+  message: "Too many verification attempts. Please request a new code after 15 minutes.",
 });
 
 /*Resend Verification Code */
