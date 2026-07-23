@@ -304,3 +304,53 @@
     text-align:center;
     font-weight:500;
 }
+
+
+/* ==========================
+  Account Locked
+========================== */
+.lock-notice {
+  margin-top: 20px;
+  padding: 10px;
+  text-align: center;
+  background: #fff7ed;
+  border: 1px solid #fd7874;
+  border-radius: 12px;
+}
+
+.lock-notice-icon {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.lock-notice h3 {
+  margin-bottom: 8px;
+  color: #9a1212;
+}
+
+.lock-notice p {
+  color: #57534e;
+  margin: 6px 0;
+  font-size: 12px;
+}
+
+.lock-countdown {
+  margin-top: 12px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ea0c0c;
+}
+
+.locked-link {
+  color: #9ca3af !important;
+  cursor: not-allowed;
+  pointer-events: none;
+  text-decoration: none;
+  opacity: 0.6;
+}
+
+.locked-link:hover {
+  color: #9ca3af !important;
+  text-decoration: none;
+   cursor: not-allowed;
+}

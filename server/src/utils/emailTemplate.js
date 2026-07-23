@@ -69,3 +69,36 @@ export const verifyEmailTemplate = (otp) => {
     </div>
   `;
 };
+
+export const suspiciousLoginTemplate = (name) => {
+  return `
+    <h2>Security Alert</h2>
+
+    <p>Hello ${name},</p>
+
+    <p>
+      We detected multiple failed login attempts on your account.
+    </p>
+
+    <p>
+      Your account has been temporarily locked for
+      <strong>10 minutes</strong>.
+    </p>
+
+    <p>
+      If these attempts were not made by you,
+      we recommend resetting your password immediately.
+    </p>
+
+    <p>
+      If this was you,
+      simply wait until the lock expires and try again or click forgot password.
+    </p>
+
+    <hr />
+
+    <p>
+      MERN Auth Project Security
+    </p>
+  `;
+};

@@ -7,9 +7,8 @@ import { generateAccessToken } from "../utils/generateAccessToken.js";
 import { generateRefreshToken } from "../utils/generateRefreshToken.js";
 import { generateResetToken } from "../utils/generateResetToken.js";
 import { sendEmail } from "../utils/sendEmail.js";
-import { passwordResetTemplate } from "../utils/emailTemplate.js";
 import { generateOTP } from "../utils/generateOTP.js";
-import { verifyEmailTemplate } from "../utils/emailTemplate.js";
+import { passwordResetTemplate, verifyEmailTemplate, suspiciousLoginTemplate, } from "../utils/emailTemplate.js";
 
 export const registerUser = async ({ name, email, password,}) => {
   const existingUser = await User.findOne({
@@ -55,8 +54,8 @@ export const loginUser = async({email, password}) =>{
     throw new Error("Email and Password required");
   }
 
-  const user = await User.findOne({email});
-  if(!user){ throw new Error("Invalid email"); }
+  const user = await User.findOne({ email: email.trim().toLowerCase(), });
+  if(!user){ throw new Error("Invalid email or password"); }
 
   if (!user.isVerified) {
     const error = new Error( "Please verify your email before logging in." );
@@ -66,10 +65,54 @@ export const loginUser = async({email, password}) =>{
     throw error;
   }
 
-  const isMatch = await bcrypt.compare(password, user.password);
-  if(!isMatch){
-    throw new Error("Invalid Password");
+  if (user.lockUntil && user.lockUntil > Date.now()) {
+    const error = new Error( "Account is temporarily locked." );
+
+    error.locked = true;
+    error.lockUntil = user.lockUntil;
+
+    throw error;
   }
+
+  if ( user.lockUntil && user.lockUntil <= Date.now() ) {
+    user.loginAttempts = 0;
+    user.lockUntil = null;
+
+    await user.save();
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    user.loginAttempts += 1;
+    if (user.loginAttempts >= 5) {
+      user.lockUntil = Date.now() + 10 * 60 * 1000;
+
+      await user.save();
+
+      try {
+        await sendEmail({
+          to: user.email,
+          subject: "Security Alert",
+          html: suspiciousLoginTemplate(user.name),
+        });
+      } catch (err) {
+        console.error( "Failed to send security email:", err.message );
+      }
+
+      const error = new Error( "Account locked due to multiple failed login attempts." );
+
+      error.locked = true;
+      error.lockUntil = user.lockUntil;
+
+      throw error;
+    }
+
+    await user.save();
+    throw new Error("Invalid email or password");
+  }
+
+  user.loginAttempts = 0;
+  user.lockUntil = null;
 
   const accessToken = generateAccessToken(user);
   const refreshToken = generateRefreshToken(user);

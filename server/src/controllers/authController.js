@@ -42,12 +42,15 @@ export const login = async (req, res) => {
       message: "Login successful",
       user: {id:user._id, name:user.name, email:user.email, role:user.role},
     });
-  } catch (err) {
-    res.status(400).json({
+  } catch (error) {
+    const statusCode = error.locked ? 423 : 400;
+    res.status(statusCode).json({
       success: false,
-      message: err.message,
-      verificationRequired: err.verificationRequired || false,
-      email: err.email || null,
+      message: error.message,
+      verificationRequired: error.verificationRequired || false,
+      email: error.email || null,
+      locked: error.locked || false,
+      lockUntil: error.lockUntil || null,
     });
   }
 };
